@@ -1,26 +1,299 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  /* OmniNative accent — electric indigo */
+  --color-omni: var(--omni);
+  --color-omni-muted: var(--omni-muted);
+  --color-omni-glow: var(--omni-glow);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --radius: 0.75rem;
+  --background: oklch(0.99 0 0);
+  --foreground: oklch(0.13 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.13 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.13 0 0);
+  --primary: oklch(0.13 0 0);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.96 0 0);
+  --secondary-foreground: oklch(0.13 0 0);
+  --muted: oklch(0.96 0 0);
+  --muted-foreground: oklch(0.5 0 0);
+  --accent: oklch(0.96 0 0);
+  --accent-foreground: oklch(0.13 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.9 0 0);
+  --input: oklch(0.92 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+
+  /* OmniNative electric indigo */
+  --omni: oklch(0.55 0.28 275);
+  --omni-muted: oklch(0.55 0.28 275 / 0.12);
+  --omni-glow: oklch(0.55 0.28 275 / 0.35);
+}
+
+.dark {
+  --background: oklch(0.095 0 0);
+  --foreground: oklch(0.96 0 0);
+  --card: oklch(0.13 0 0);
+  --card-foreground: oklch(0.96 0 0);
+  --popover: oklch(0.13 0 0);
+  --popover-foreground: oklch(0.96 0 0);
+  --primary: oklch(0.92 0 0);
+  --primary-foreground: oklch(0.13 0 0);
+  --secondary: oklch(0.20 0 0);
+  --secondary-foreground: oklch(0.96 0 0);
+  --muted: oklch(0.20 0 0);
+  --muted-foreground: oklch(0.60 0 0);
+  --accent: oklch(0.20 0 0);
+  --accent-foreground: oklch(0.96 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 10%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.13 0 0);
+  --sidebar-foreground: oklch(0.96 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.20 0 0);
+  --sidebar-accent-foreground: oklch(0.96 0 0);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-ring: oklch(0.556 0 0);
+
+  /* OmniNative electric indigo - dark variant slightly brighter */
+  --omni: oklch(0.63 0.26 275);
+  --omni-muted: oklch(0.63 0.26 275 / 0.15);
+  --omni-glow: oklch(0.63 0.26 275 / 0.4);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ──────────────────────────────────────────────
+   React Flow canvas overrides
+────────────────────────────────────────────── */
+.react-flow__background {
+  background-color: transparent;
+}
+
+.dark .react-flow__background pattern circle {
+  fill: oklch(1 0 0 / 0.08);
+}
+
+.react-flow__background pattern circle {
+  fill: oklch(0 0 0 / 0.06);
+}
+
+/* Custom edge glow */
+.react-flow__edge-path {
+  stroke-width: 2;
+  transition: stroke 0.3s ease;
+}
+
+.react-flow__edge.animated .react-flow__edge-path {
+  stroke: var(--omni);
+  filter: drop-shadow(0 0 6px var(--omni-glow));
+}
+
+/* Controls & MiniMap dark theme */
+.dark .react-flow__controls {
+  background: oklch(0.13 0 0);
+  border: 1px solid oklch(1 0 0 / 10%);
+}
+
+.dark .react-flow__controls-button {
+  background: oklch(0.13 0 0);
+  border-bottom: 1px solid oklch(1 0 0 / 8%);
+  color: oklch(0.65 0 0);
+  fill: oklch(0.65 0 0);
+}
+
+.dark .react-flow__controls-button:hover {
+  background: oklch(0.20 0 0);
+}
+
+.dark .react-flow__minimap {
+  background: oklch(0.13 0 0);
+  border: 1px solid oklch(1 0 0 / 10%);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.react-flow__minimap {
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+/* ── Node handle styles — improved UX ──────────────────────── */
+.react-flow__handle {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--omni);
+  border: 2.5px solid #fff;
+  box-shadow: 0 0 0 1px var(--omni), 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  cursor: crosshair;
+  /* Expand the pointer hit-area without affecting visual size */
+  position: absolute;
+}
+
+/* Large invisible hit area around handles */
+.react-flow__handle::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+}
+
+.react-flow__handle:hover,
+.react-flow__handle.connectingfrom,
+.react-flow__handle.connectingto {
+  transform: scale(1.5);
+  box-shadow: 0 0 0 1px var(--omni), 0 0 16px var(--omni-glow), 0 2px 8px rgba(0, 0, 0, 0.25);
+  background: oklch(0.7 0.28 275);
+}
+
+/* Dark mode border contrast */
+.dark .react-flow__handle {
+  border-color: oklch(0.12 0 0);
+}
+
+/* Source handle — slightly brighter */
+.react-flow__handle-right {
+  right: -7px;
+}
+
+/* Target handle */
+.react-flow__handle-left {
+  left: -7px;
+}
+
+/* Valid connection target highlight */
+.react-flow__handle.valid {
+  background: oklch(0.65 0.2 160);
+  box-shadow: 0 0 0 2px oklch(0.65 0.2 160), 0 0 20px rgba(52, 211, 153, 0.5);
+  transform: scale(1.6);
+}
+
+/* Edge selection */
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: var(--omni);
+}
+
+/* Running edge animation dash */
+@keyframes flowDash {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+.react-flow__edge.animated .react-flow__edge-path {
+  stroke-dasharray: 8 4;
+  animation: flowDash 0.4s linear infinite;
+}
+
+/* Node glow when selected */
+.react-flow__node.selected>div {
+  box-shadow: 0 0 0 2px var(--omni), 0 0 24px var(--omni-glow);
+}
+
+/* Spinner animation */
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-slow {
+  animation: spin-slow 1s linear infinite;
+}
+
+/* run-button pulse glow */
+@keyframes omni-pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 12px var(--omni-glow);
+  }
+
+  50% {
+    box-shadow: 0 0 24px var(--omni-glow), 0 0 40px var(--omni-glow);
+  }
+}
+
+.omni-pulse {
+  animation: omni-pulse 2s ease-in-out infinite;
 }
