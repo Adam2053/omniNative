@@ -26,6 +26,24 @@ const IgLogo = () => (
     </svg>
 );
 const GeneralLogo = () => <FileText className="w-4 h-4" />;
+const LiLogo = () => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+        <rect x="2" y="9" width="4" height="12" />
+        <circle cx="4" cy="4" r="2" />
+    </svg>
+);
+const FbLogo = () => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    </svg>
+);
+const RdLogo = () => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+        <circle cx="12" cy="12" r="10" />
+        <path fill="white" d="M16.67 12a1.3 1.3 0 0 0-1.3 1.3c0 .17.03.34.09.5A5.6 5.6 0 0 1 12 14.7a5.6 5.6 0 0 1-3.46-.9.97.97 0 0 0 .09-.5A1.3 1.3 0 0 0 7.33 12a1.3 1.3 0 0 0 0 2.6c.28 0 .54-.09.75-.24A6.6 6.6 0 0 0 12 15.7a6.6 6.6 0 0 0 3.92-1.34c.21.15.47.24.75.24a1.3 1.3 0 0 0 0-2.6zM20 12a2 2 0 0 0-2-2 2 2 0 0 0-1.38.55A8.07 8.07 0 0 0 12.5 9.1l.76-2.4 2.1.47a1.2 1.2 0 1 0 .13-.62l-2.4-.53a.3.3 0 0 0-.35.2l-.87 2.74A8.09 8.09 0 0 0 7.4 10.55 2 2 0 0 0 4 12a2 2 0 0 0 1.04 1.74 3.4 3.4 0 0 0-.04.46c0 2.33 2.69 4.2 6 4.2s6-1.87 6-4.2a3.4 3.4 0 0 0-.04-.46A2 2 0 0 0 20 12zm-8.5 2a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5zm2 1.5c-.4.4-1 .6-1.5.6s-1.1-.2-1.5-.6a.2.2 0 0 1 .28-.28c.33.33.77.48 1.22.48s.89-.15 1.22-.48a.2.2 0 0 1 .28.28zm.5-1.5a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5z" />
+    </svg>
+);
 
 /* ── Platform config ─────────────────────────── */
 const PLATFORM_CFG: Record<
@@ -49,6 +67,24 @@ const PLATFORM_CFG: Record<
         gradient: "from-slate-500 to-zinc-700",
         logo: <GeneralLogo />,
         charLimit: 5000,
+    },
+    linkedin: {
+        label: "LinkedIn Post",
+        gradient: "from-blue-600 to-blue-700",
+        logo: <LiLogo />,
+        charLimit: PLATFORM_LIMITS.linkedin.caption,
+    },
+    facebook: {
+        label: "Facebook Post",
+        gradient: "from-blue-500 to-indigo-600",
+        logo: <FbLogo />,
+        charLimit: PLATFORM_LIMITS.facebook.caption,
+    },
+    reddit: {
+        label: "Reddit Post",
+        gradient: "from-orange-500 to-red-600",
+        logo: <RdLogo />,
+        charLimit: PLATFORM_LIMITS.reddit.caption,
     },
 };
 
@@ -95,8 +131,15 @@ function PlatformPickerPopup({
                     <p className="text-[9px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-600 px-2 py-1">
                         Choose post type
                     </p>
-                    {(["instagram", "x", "general"] as GeneratePostPlatform[]).map((p) => {
+                    {(["instagram", "x", "linkedin", "facebook", "reddit", "general"] as GeneratePostPlatform[]).map((p) => {
                         const cfg = PLATFORM_CFG[p];
+                        const desc =
+                            p === "instagram" ? "2,200 chars · 30 hashtags" :
+                                p === "x" ? "280 chars · thread support" :
+                                    p === "linkedin" ? "3,000 chars · professional" :
+                                        p === "facebook" ? "Community post format" :
+                                            p === "reddit" ? "Markdown · 40k chars" :
+                                                "No platform constraints";
                         return (
                             <button
                                 key={p}
@@ -112,11 +155,7 @@ function PlatformPickerPopup({
                                 </span>
                                 <div>
                                     <p className="text-xs font-bold text-zinc-700 dark:text-zinc-200">{cfg.label}</p>
-                                    <p className="text-[9px] text-zinc-400 dark:text-zinc-500">
-                                        {p === "instagram" && "2,200 chars · 30 hashtags"}
-                                        {p === "x" && "280 chars · thread support"}
-                                        {p === "general" && "No platform constraints"}
-                                    </p>
+                                    <p className="text-[9px] text-zinc-400 dark:text-zinc-500">{desc}</p>
                                 </div>
                             </button>
                         );
@@ -233,8 +272,8 @@ function GeneratePostNodeComponent({ id, data, selected }: NodeProps) {
                                 key={t.value}
                                 onClick={() => update({ igPostType: t.value })}
                                 className={`text-[9px] font-bold py-1 rounded-md border transition-all cursor-pointer ${nodeData.igPostType === t.value
-                                        ? "bg-fuchsia-500 border-fuchsia-500 text-white"
-                                        : "bg-zinc-100 dark:bg-zinc-800/60 border-zinc-200 dark:border-white/8 text-zinc-500 hover:border-fuchsia-500/40"
+                                    ? "bg-fuchsia-500 border-fuchsia-500 text-white"
+                                    : "bg-zinc-100 dark:bg-zinc-800/60 border-zinc-200 dark:border-white/8 text-zinc-500 hover:border-fuchsia-500/40"
                                     }`}
                             >
                                 {t.emoji} {t.label}
@@ -253,8 +292,8 @@ function GeneratePostNodeComponent({ id, data, selected }: NodeProps) {
                                     key={r.value}
                                     onClick={() => update({ igAspectRatio: r.value })}
                                     className={`text-[9px] font-semibold py-1 rounded-md border transition-all cursor-pointer ${nodeData.igAspectRatio === r.value
-                                            ? "bg-fuchsia-500/15 border-fuchsia-500/60 text-fuchsia-600 dark:text-fuchsia-400"
-                                            : "bg-zinc-100 dark:bg-zinc-800/60 border-zinc-200 dark:border-white/8 text-zinc-500 hover:border-fuchsia-500/30"
+                                        ? "bg-fuchsia-500/15 border-fuchsia-500/60 text-fuchsia-600 dark:text-fuchsia-400"
+                                        : "bg-zinc-100 dark:bg-zinc-800/60 border-zinc-200 dark:border-white/8 text-zinc-500 hover:border-fuchsia-500/30"
                                         }`}
                                 >
                                     {r.label}
@@ -286,8 +325,8 @@ function GeneratePostNodeComponent({ id, data, selected }: NodeProps) {
                         placeholder="Your tweet… keeps it punchy. Under 280 characters lands best."
                         rows={4}
                         className={`w-full text-xs px-2.5 py-1.5 rounded-md bg-zinc-100 dark:bg-zinc-800/80 border text-zinc-800 dark:text-zinc-100 placeholder:text-zinc-400 focus:outline-none focus:ring-2 transition-all resize-none leading-relaxed ${isOver
-                                ? "border-rose-400 focus:ring-rose-500/50"
-                                : "border-zinc-200 dark:border-white/8 focus:ring-zinc-500/50"
+                            ? "border-rose-400 focus:ring-rose-500/50"
+                            : "border-zinc-200 dark:border-white/8 focus:ring-zinc-500/50"
                             }`}
                     />
                     {isOver && (
@@ -301,8 +340,8 @@ function GeneratePostNodeComponent({ id, data, selected }: NodeProps) {
                 <button
                     onClick={() => update({ xUseThread: !nodeData.xUseThread })}
                     className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg border transition-all cursor-pointer ${nodeData.xUseThread
-                            ? "bg-zinc-800/15 border-zinc-700/40 dark:border-white/20"
-                            : "bg-zinc-100 dark:bg-zinc-800/40 border-zinc-200 dark:border-white/8 hover:border-zinc-300 dark:hover:border-white/15"
+                        ? "bg-zinc-800/15 border-zinc-700/40 dark:border-white/20"
+                        : "bg-zinc-100 dark:bg-zinc-800/40 border-zinc-200 dark:border-white/8 hover:border-zinc-300 dark:hover:border-white/15"
                         }`}
                 >
                     <div className="flex items-center gap-2">
@@ -313,8 +352,8 @@ function GeneratePostNodeComponent({ id, data, selected }: NodeProps) {
                         </div>
                     </div>
                     <div className={`w-4 h-4 rounded flex items-center justify-center border transition-all ${nodeData.xUseThread
-                            ? "bg-zinc-900 border-zinc-900 dark:bg-white dark:border-white"
-                            : "border-zinc-300 dark:border-zinc-600"
+                        ? "bg-zinc-900 border-zinc-900 dark:bg-white dark:border-white"
+                        : "border-zinc-300 dark:border-zinc-600"
                         }`}>
                         {nodeData.xUseThread && <span className="text-white dark:text-zinc-900 text-[9px] font-bold">✓</span>}
                     </div>
@@ -429,7 +468,7 @@ function GeneratePostNodeComponent({ id, data, selected }: NodeProps) {
                 <div className="px-3 py-3 space-y-3" onMouseDown={(e) => e.stopPropagation()}>
                     {platform === "instagram" && <InstagramBody />}
                     {platform === "x" && <TwitterBody />}
-                    {platform === "general" && <GeneralBody />}
+                    {(platform === "linkedin" || platform === "facebook" || platform === "reddit" || platform === "general") && <GeneralBody />}
 
                     {/* Status + Generate button */}
                     <div className="space-y-2">
