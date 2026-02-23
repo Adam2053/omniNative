@@ -4,7 +4,8 @@ import { memo, useCallback, useState } from "react";
 import { Handle, Position, type NodeProps, useReactFlow } from "@xyflow/react";
 import { PenLine, Hash } from "lucide-react";
 import { motion } from "framer-motion";
-import type { PostMakerNodeData, PostType } from "@/types/workflow";
+import type { PostMakerNodeData, PostType, TargetPlatform } from "@/types/workflow";
+import { TargetPlatformPicker } from "./TargetPlatformPicker";
 
 const POST_TYPES: { value: PostType; label: string }[] = [
     { value: "text", label: "Text" },
@@ -66,8 +67,8 @@ function PostMakerNodeComponent({ id, data, selected }: NodeProps) {
                                 key={pt.value}
                                 onClick={() => update({ postType: pt.value })}
                                 className={`flex-1 text-[10px] font-semibold py-1 rounded-md border transition-all duration-150 cursor-pointer ${nodeData.postType === pt.value
-                                        ? "bg-emerald-500 border-emerald-500 text-white shadow-[0_0_8px_rgba(16,185,129,0.4)]"
-                                        : "bg-zinc-100 dark:bg-zinc-800/60 border-zinc-200 dark:border-white/8 text-zinc-500 dark:text-zinc-400 hover:border-emerald-500/50"
+                                    ? "bg-emerald-500 border-emerald-500 text-white shadow-[0_0_8px_rgba(16,185,129,0.4)]"
+                                    : "bg-zinc-100 dark:bg-zinc-800/60 border-zinc-200 dark:border-white/8 text-zinc-500 dark:text-zinc-400 hover:border-emerald-500/50"
                                     }`}
                             >
                                 {pt.label}
@@ -122,6 +123,13 @@ function PostMakerNodeComponent({ id, data, selected }: NodeProps) {
                         />
                     </div>
                 </div>
+
+                {/* Target platform */}
+                <TargetPlatformPicker
+                    value={nodeData.targetPlatform ?? "both"}
+                    onChange={(v: TargetPlatform) => update({ targetPlatform: v })}
+                    accentColor="emerald"
+                />
             </div>
 
             <Handle type="source" position={Position.Right} id="output" className="!top-1/2 !-translate-y-1/2" />

@@ -4,7 +4,8 @@ import { memo, useCallback } from "react";
 import { Handle, Position, type NodeProps, useReactFlow } from "@xyflow/react";
 import { Wand2, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { IdeaPolisherNodeData, PolishMode, PolishedAngle } from "@/types/workflow";
+import type { IdeaPolisherNodeData, PolishMode, PolishedAngle, TargetPlatform } from "@/types/workflow";
+import { TargetPlatformPicker } from "./TargetPlatformPicker";
 
 const MODES: { value: PolishMode; label: string; emoji: string; desc: string }[] = [
     { value: "trendjacking", label: "Trend-jack", emoji: "📈", desc: "Tie idea to current trends" },
@@ -102,8 +103,8 @@ function IdeaPolisherNodeComponent({ id, data, selected }: NodeProps) {
                                 onClick={() => update({ polishMode: m.value })}
                                 title={m.desc}
                                 className={`flex items-center gap-1.5 text-[10px] font-semibold py-1.5 px-2 rounded-md border transition-all duration-150 cursor-pointer ${currentMode === m.value
-                                        ? "bg-amber-500 border-amber-500 text-white shadow-[0_0_8px_rgba(251,191,36,0.4)]"
-                                        : "bg-zinc-100 dark:bg-zinc-800/60 border-zinc-200 dark:border-white/8 text-zinc-500 dark:text-zinc-400 hover:border-amber-400/50"
+                                    ? "bg-amber-500 border-amber-500 text-white shadow-[0_0_8px_rgba(251,191,36,0.4)]"
+                                    : "bg-zinc-100 dark:bg-zinc-800/60 border-zinc-200 dark:border-white/8 text-zinc-500 dark:text-zinc-400 hover:border-amber-400/50"
                                     }`}
                             >
                                 <span>{m.emoji}</span>
@@ -118,8 +119,8 @@ function IdeaPolisherNodeComponent({ id, data, selected }: NodeProps) {
                     onClick={handlePolish}
                     disabled={isRunning}
                     className={`w-full flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-bold border transition-all duration-200 cursor-pointer ${isRunning
-                            ? "bg-amber-500/10 border-amber-500/30 text-amber-500 cursor-not-allowed"
-                            : "bg-amber-500 border-amber-500 text-white hover:bg-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.3)]"
+                        ? "bg-amber-500/10 border-amber-500/30 text-amber-500 cursor-not-allowed"
+                        : "bg-amber-500 border-amber-500 text-white hover:bg-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.3)]"
                         }`}
                 >
                     {isRunning ? (
@@ -154,8 +155,8 @@ function IdeaPolisherNodeComponent({ id, data, selected }: NodeProps) {
                                     animate={{ opacity: 1, x: 0 }}
                                     onClick={() => update({ selectedAngleId: angle.id })}
                                     className={`w-full text-left p-2 rounded-lg border transition-all duration-150 cursor-pointer group ${nodeData.selectedAngleId === angle.id
-                                            ? "bg-amber-500/10 border-amber-500/50"
-                                            : "bg-zinc-50 dark:bg-zinc-800/50 border-zinc-200 dark:border-white/8 hover:border-amber-400/40"
+                                        ? "bg-amber-500/10 border-amber-500/50"
+                                        : "bg-zinc-50 dark:bg-zinc-800/50 border-zinc-200 dark:border-white/8 hover:border-amber-400/40"
                                         }`}
                                 >
                                     <div className="flex items-center justify-between mb-0.5">
@@ -168,6 +169,13 @@ function IdeaPolisherNodeComponent({ id, data, selected }: NodeProps) {
                         </motion.div>
                     )}
                 </AnimatePresence>
+
+                {/* Target platform */}
+                <TargetPlatformPicker
+                    value={nodeData.targetPlatform ?? "both"}
+                    onChange={(v: TargetPlatform) => update({ targetPlatform: v })}
+                    accentColor="amber"
+                />
             </div>
 
             <Handle type="target" position={Position.Left} id="input" className="!top-1/2 !-translate-y-1/2" />

@@ -4,7 +4,8 @@ import { memo, useCallback } from "react";
 import { Handle, Position, type NodeProps, useReactFlow } from "@xyflow/react";
 import { MessageSquarePlus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { CaptionGeneratorNodeData, CaptionStyle, EmojiUsage } from "@/types/workflow";
+import type { CaptionGeneratorNodeData, CaptionStyle, EmojiUsage, TargetPlatform } from "@/types/workflow";
+import { TargetPlatformPicker } from "./TargetPlatformPicker";
 
 const STYLES: { value: CaptionStyle; label: string; emoji: string }[] = [
     { value: "hook", label: "Hook", emoji: "🎣" },
@@ -94,8 +95,8 @@ function CaptionGeneratorNodeComponent({ id, data, selected }: NodeProps) {
                                 key={s.value}
                                 onClick={() => update({ captionStyle: s.value })}
                                 className={`flex items-center gap-1 text-[10px] font-semibold py-1.5 px-2 rounded-md border transition-all duration-150 cursor-pointer ${currentStyle === s.value
-                                        ? "bg-sky-500 border-sky-500 text-white shadow-[0_0_8px_rgba(56,189,248,0.4)]"
-                                        : "bg-zinc-100 dark:bg-zinc-800/60 border-zinc-200 dark:border-white/8 text-zinc-500 dark:text-zinc-400 hover:border-sky-400/50"
+                                    ? "bg-sky-500 border-sky-500 text-white shadow-[0_0_8px_rgba(56,189,248,0.4)]"
+                                    : "bg-zinc-100 dark:bg-zinc-800/60 border-zinc-200 dark:border-white/8 text-zinc-500 dark:text-zinc-400 hover:border-sky-400/50"
                                     }`}
                             >
                                 <span>{s.emoji}</span> {s.label}
@@ -114,8 +115,8 @@ function CaptionGeneratorNodeComponent({ id, data, selected }: NodeProps) {
                                     key={el.value}
                                     onClick={() => update({ emojiUsage: el.value })}
                                     className={`text-[10px] font-semibold py-1 rounded-md border transition-all cursor-pointer ${emojiUsage === el.value
-                                            ? "bg-sky-500 border-sky-500 text-white"
-                                            : "bg-zinc-100 dark:bg-zinc-800/60 border-zinc-200 dark:border-white/8 text-zinc-500 dark:text-zinc-400"
+                                        ? "bg-sky-500 border-sky-500 text-white"
+                                        : "bg-zinc-100 dark:bg-zinc-800/60 border-zinc-200 dark:border-white/8 text-zinc-500 dark:text-zinc-400"
                                         }`}
                                 >
                                     {el.label}
@@ -133,8 +134,8 @@ function CaptionGeneratorNodeComponent({ id, data, selected }: NodeProps) {
                                     key={n}
                                     onClick={() => update({ hashtagCount: n })}
                                     className={`text-[10px] font-semibold py-1 rounded-md border transition-all cursor-pointer ${hashtagCount === n
-                                            ? "bg-sky-500 border-sky-500 text-white"
-                                            : "bg-zinc-100 dark:bg-zinc-800/60 border-zinc-200 dark:border-white/8 text-zinc-500 dark:text-zinc-400"
+                                        ? "bg-sky-500 border-sky-500 text-white"
+                                        : "bg-zinc-100 dark:bg-zinc-800/60 border-zinc-200 dark:border-white/8 text-zinc-500 dark:text-zinc-400"
                                         }`}
                                 >
                                     #{n}
@@ -149,8 +150,8 @@ function CaptionGeneratorNodeComponent({ id, data, selected }: NodeProps) {
                     onClick={handleGenerate}
                     disabled={isRunning}
                     className={`w-full flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-bold border transition-all duration-200 cursor-pointer ${isRunning
-                            ? "bg-sky-500/10 border-sky-500/30 text-sky-400 cursor-not-allowed"
-                            : "bg-sky-500 border-sky-500 text-white hover:bg-sky-400 shadow-[0_0_12px_rgba(56,189,248,0.3)]"
+                        ? "bg-sky-500/10 border-sky-500/30 text-sky-400 cursor-not-allowed"
+                        : "bg-sky-500 border-sky-500 text-white hover:bg-sky-400 shadow-[0_0_12px_rgba(56,189,248,0.3)]"
                         }`}
                 >
                     {isRunning ? (
@@ -176,6 +177,13 @@ function CaptionGeneratorNodeComponent({ id, data, selected }: NodeProps) {
                         </motion.div>
                     )}
                 </AnimatePresence>
+
+                {/* Target platform */}
+                <TargetPlatformPicker
+                    value={nodeData.targetPlatform ?? "both"}
+                    onChange={(v: TargetPlatform) => update({ targetPlatform: v })}
+                    accentColor="sky"
+                />
             </div>
 
             <Handle type="target" position={Position.Left} id="input" className="!top-1/2 !-translate-y-1/2" />

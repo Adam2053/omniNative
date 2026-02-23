@@ -31,6 +31,12 @@ const FbLogo = ({ sz = "w-5 h-5" }: { sz?: string }) => (
         <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
     </svg>
 );
+const RdLogo = ({ sz = "w-5 h-5" }: { sz?: string }) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={sz}>
+        <circle cx="12" cy="12" r="10" />
+        <path fill="white" d="M16.67 12a1.3 1.3 0 0 0-1.3 1.3c0 .17.03.34.09.5A5.6 5.6 0 0 1 12 14.7a5.6 5.6 0 0 1-3.46-.9.97.97 0 0 0 .09-.5A1.3 1.3 0 0 0 7.33 12a1.3 1.3 0 0 0 0 2.6c.28 0 .54-.09.75-.24A6.6 6.6 0 0 0 12 15.7a6.6 6.6 0 0 0 3.92-1.34c.21.15.47.24.75.24a1.3 1.3 0 0 0 0-2.6zM20 12a2 2 0 0 0-2-2 2 2 0 0 0-1.38.55A8.07 8.07 0 0 0 12.5 9.1l.76-2.4 2.1.47a1.2 1.2 0 1 0 .13-.62l-2.4-.53a.3.3 0 0 0-.35.2l-.87 2.74A8.09 8.09 0 0 0 7.4 10.55 2 2 0 0 0 4 12a2 2 0 0 0 1.04 1.74 3.4 3.4 0 0 0-.04.46c0 2.33 2.69 4.2 6 4.2s6-1.87 6-4.2a3.4 3.4 0 0 0-.04-.46A2 2 0 0 0 20 12zm-8.5 2a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5zm2 1.5c-.4.4-1 .6-1.5.6s-1.1-.2-1.5-.6a.2.2 0 0 1 .28-.28c.33.33.77.48 1.22.48s.89-.15 1.22-.48a.2.2 0 0 1 .28.28zm.5-1.5a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5z" />
+    </svg>
+);
 
 /* ── Platform config ─────────────────────────────────────────── */
 export const PLATFORM_CFG: Record<
@@ -61,9 +67,15 @@ export const PLATFORM_CFG: Record<
         logo: <FbLogo />,
         logoSm: <FbLogo sz="w-4 h-4" />,
     },
+    reddit: {
+        label: "Reddit",
+        gradient: "from-orange-500 to-red-600",
+        logo: <RdLogo />,
+        logoSm: <RdLogo sz="w-4 h-4" />,
+    },
 };
 
-const ALL_PLATFORMS: PlatformType[] = ["x", "instagram", "linkedin", "facebook"];
+const ALL_PLATFORMS: PlatformType[] = ["x", "instagram", "linkedin", "facebook", "reddit"];
 
 const STATUS_CFG: Record<NodeStatus, { label: string; color: string; dotColor: string }> = {
     idle: { label: "Idle", color: "text-zinc-400 dark:text-zinc-500", dotColor: "bg-zinc-300 dark:bg-zinc-600" },
